@@ -70,7 +70,6 @@ jQuery(function ($) {
 			$('#toggle-all').prop('checked', this.getActiveTodos().length === 0);
 			this.renderFooter();
 			$('#new-todo').focus();
-			util.store('todos-jquery', this.todos);
 		},
 		renderFooter: function () {
 			var todoCount = this.todos.length;
@@ -90,8 +89,9 @@ jQuery(function ($) {
 			this.todos.forEach(function (todo) {
 				todo.completed = isChecked;
 			});
-
+			util.store('todos-jquery', this.todos);
 			this.render();
+
 		},
 		getActiveTodos: function () {
 			return this.todos.filter(function (todo) {
@@ -117,7 +117,9 @@ jQuery(function ($) {
 		destroyCompleted: function () {
 			this.todos = this.getActiveTodos();
 			this.filter = 'all';
+			util.store('todos-jquery', this.todos);
 			this.render();
+
 		},
 		// accepts an element from inside the `.item` div and
 		// returns the corresponding index in the `todos` array
@@ -147,13 +149,16 @@ jQuery(function ($) {
 			});
 
 			$input.val('');
-
+			util.store('todos-jquery', this.todos);
 			this.render();
+
 		},
 		toggle: function (e) {
 			var i = this.indexFromEl(e.target);
 			this.todos[i].completed = !this.todos[i].completed;
+			util.store('todos-jquery', this.todos);
 			this.render();
+
 		},
 		edit: function (e) {
 			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
@@ -183,12 +188,15 @@ jQuery(function ($) {
 			} else {
 				this.todos[this.indexFromEl(el)].title = val;
 			}
-
+			util.store('todos-jquery', this.todos);
 			this.render();
+
 		},
 		destroy: function (e) {
 			this.todos.splice(this.indexFromEl(e.target), 1);
+			util.store('todos-jquery', this.todos);
 			this.render();
+
 		}
 	};
 
