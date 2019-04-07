@@ -52,6 +52,9 @@ jQuery(function ($) {
 				}.bind(this)
 			}).init('/all');
 		},
+		updateDatabase: function(){
+			util.store('todos-jquery', this.todos);
+		},
 		bindEvents: function () {
 			$('#new-todo').on('keyup', this.create.bind(this));
 			$('#toggle-all').on('change', this.toggleAll.bind(this));
@@ -89,7 +92,7 @@ jQuery(function ($) {
 			this.todos.forEach(function (todo) {
 				todo.completed = isChecked;
 			});
-			util.store('todos-jquery', this.todos);
+			this.updateDatabase();
 			this.render();
 
 		},
@@ -117,7 +120,7 @@ jQuery(function ($) {
 		destroyCompleted: function () {
 			this.todos = this.getActiveTodos();
 			this.filter = 'all';
-			util.store('todos-jquery', this.todos);
+			this.updateDatabase();
 			this.render();
 
 		},
@@ -149,14 +152,14 @@ jQuery(function ($) {
 			});
 
 			$input.val('');
-			util.store('todos-jquery', this.todos);
+			this.updateDatabase();
 			this.render();
 
 		},
 		toggle: function (e) {
 			var i = this.indexFromEl(e.target);
 			this.todos[i].completed = !this.todos[i].completed;
-			util.store('todos-jquery', this.todos);
+			this.updateDatabase();
 			this.render();
 
 		},
@@ -188,13 +191,13 @@ jQuery(function ($) {
 			} else {
 				this.todos[this.indexFromEl(el)].title = val;
 			}
-			util.store('todos-jquery', this.todos);
+			this.updateDatabase();
 			this.render();
 
 		},
 		destroy: function (e) {
 			this.todos.splice(this.indexFromEl(e.target), 1);
-			util.store('todos-jquery', this.todos);
+			this.updateDatabase();
 			this.render();
 
 		}
